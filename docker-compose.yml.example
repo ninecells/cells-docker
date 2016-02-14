@@ -1,0 +1,40 @@
+nginx:
+  image: nginx
+  container_name: nginx
+  ports:
+    - 80:80
+  volumes:
+    - /home/modernpug/work/www/www.modernpug.org/:/var/www/www.modernpug.org/
+    - /home/modernpug/work/www/allblog.modernpug.org/:/var/www/allblog.modernpug.org/
+    - ./src/nginx/config/:/etc/nginx/conf.d/
+  links:
+    - php-modernpug
+    - php-allblog
+
+
+php-modernpug:
+  image: cell-php56
+  container_name: cell-modernpug
+  volumes:
+    - /home/modernpug/work/www/www.modernpug.org/:/var/www/www.modernpug.org/
+  links:
+    - db
+
+
+php-allblog:
+  image: cell-php56
+  container_name: cell-allblog
+  volumes:
+    - /home/modernpug/work/www/allblog.modernpug.org/:/var/www/allblog.modernpug.org/
+  links:
+    - db
+
+
+db:
+  image: cell-mysql
+  container_name: db
+  volumes:
+   - /root/work/volumes/db:/var/lib/mysql
+   - /root/work/volumes/db_backups:/backups
+  environment:
+   - MYSQL_ROOT_PASSWORD=secret
