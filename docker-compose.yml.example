@@ -4,12 +4,23 @@ nginx:
   ports:
     - 80:80
   volumes:
+    - /home/ninecells/work/www/www.9cells.com/:/var/www/www.9cells.com/
     - /home/modernpug/work/www/www.modernpug.org/:/var/www/www.modernpug.org/
     - /home/modernpug/work/www/allblog.modernpug.org/:/var/www/allblog.modernpug.org/
     - ./src/nginx/config/:/etc/nginx/conf.d/
   links:
+    - php-ninecells
     - php-modernpug
     - php-allblog
+
+
+php-ninecells:
+  image: cell-php56
+  container_name: cell-ninecells
+  volumes:
+    - /home/ninecells/work/www/www.9cells.com/:/var/www/www.9cells.com/
+  links:
+    - db
 
 
 php-modernpug:
